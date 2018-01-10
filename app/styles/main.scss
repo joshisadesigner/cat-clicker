@@ -19,17 +19,41 @@ img {
   width: 100%;
 }
 
-.hero-unit {
-  margin: 50px auto 0 auto;
-  width: 600px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  background-color: #eee;
-  border-radius: 6px;
-  padding: 20px;
-  box-shadow: 0 5px 25px rgba( #000, 0.2 );
-  transition: all .256s ease-in-out;
+.hero {
+  &-unit {
+    margin: 50px auto 0 auto;
+    width: 600px;
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 30px;
+    background-color: #eee;
+    border-radius: 6px;
+    padding: 20px;
+    box-shadow: 0 5px 25px rgba( #000, 0.2 );
+    transition: all .256s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-counter {
+    padding: 15px;
+    width: 30px;
+    height: 30px;
+    bottom: -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    background: rgba(35, 147, 252, 1 );
+    position: absolute;
+    transition: all .5s;
+  }
 
 
   h1 {
@@ -45,4 +69,20 @@ img {
 
 .clicked {
   transform: scale( 1.01 );
+
+  .hero-counter {
+    animation-name: scale;
+    animation-duration: .5s;
+    animation-fill-mode: both;
+  }
+}
+
+@keyframes scale {
+  from {
+    transform: scale( 1 );
+  }
+
+  to {
+    transform: scale( 1.2 );
+  }
 }
