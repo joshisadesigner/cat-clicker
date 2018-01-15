@@ -69,7 +69,7 @@ img {
     font-weight: bold;
     background: #3ad8ca;
     position: absolute;
-    transition: all .5s;
+    transition: all .5s ease-in-out;
   }
 }
 
@@ -78,13 +78,26 @@ img {
 }
 
 .form {
-  margin: auto;
+  width: 380px;
+  min-width: 380px;
   padding: 20px;
-  max-width: 380px;
-  display: flex;
-  flex-flow: column nowrap;
   background: #fff;
   border-radius: 5px;
+  position: relative;
+  transition: left 1s ease-in-out;
+
+  &.slide {
+    left: -380px;
+  }
+
+  &__container {
+    margin: 20px auto;
+    max-width: 380px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    overflow: hidden;
+  }
 
   &__title {
     width: 100%;
@@ -119,6 +132,7 @@ img {
       position: relative;
       position: relative;
       transition: all .265s ease-in-out;
+      cursor: pointer;
 
       img {
         width: 100px;
@@ -149,6 +163,15 @@ img {
 
   &__action {
     margin-bottom: 20px;
+    opacity: 1;
+    transition: all .5s ease-in-out;
+
+    &.hidden-action {
+      margin-bottom: 0;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
   }
 }
 
@@ -162,6 +185,10 @@ img {
   text-transform: uppercase;
   border: none;
   outline: none;
+  width: 100%;
+  border-radius: 3px;
+  display: block;
+  text-align: center;
 
   &:hover {
     background: #376da0;
