@@ -23,7 +23,7 @@ const imageSelection = {
             arr[ i ].addEventListener( 'click', ( ( elm ) => {
                 let elmIcon = elm.getElementsByClassName( 'far' );
                 return () => {
-                    console.log( elm );
+                    console.log( elm, elmIcon[0] );
                 };
             })( element ));
         }
