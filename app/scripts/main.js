@@ -21,9 +21,10 @@ const imageSelection = {
             let element = arr[ i ];
             
             arr[ i ].addEventListener( 'click', ( ( elm ) => {
-                let elmIcon = elm.getElementsByClassName( 'far' );
+                let elmIcon = elm.getElementsByTagName( 'i' );
                 return () => {
-                    console.log( elm, elmIcon[0] );
+                    imageSelection.changeIcon( elmIcon[0] );
+                    selectedImages.push( i );
                 };
             })( element ));
         }
