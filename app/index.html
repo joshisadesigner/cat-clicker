@@ -26,17 +26,11 @@
     <![endif]-->
 
     <div id="targetContainer" class="box__container">
-      <div id="targetImage_1" class="box__unit">
-        <h3 id="catName" class="box__title catName"></h3>
-        <img class="box__img" src="images/1.jpg" />
-        <span id="clickCounter_1" class="box-counter">0</span>
-      </div>
-      
-      <div id="targetImage_2" class="box__unit">
-        <h3 id="catName" class="box__title catName"></h3>
-        <img class="box__img" src="images/2.jpg" />
-        <span id="clickCounter_2" class="box-counter">0</span>
-      </div>
+        <div id="targetImage_0${ i }" class="box__unit">
+            <h3 id="name_00" class="box__title cat-name"></h3>
+            <img id="image-00" class="box__img" src="images/0.jpg" />
+            <span id="counter_00" class="box-counter">0</span>
+        </div>
     </div>
 
     <div id="backdrop" class="backdrop">
@@ -46,6 +40,10 @@
                   <h2>SELECT SOME CUTE CATS!</h2>
                 </div>
                 <div id="cats" class="form__select-group">
+                  <div class="form__select-img cat">
+                    <span class="form__select-icon"><i class="far fa-circle"></i></span>
+                      <img src="images/0.jpg" />
+                  </div>
                   <div class="form__select-img cat">
                     <span class="form__select-icon"><i class="far fa-circle"></i></span>
                       <img src="images/1.jpg" />
@@ -62,10 +60,6 @@
                     <span class="form__select-icon"><i class="far fa-circle"></i></span>
                       <img src="images/4.jpg" />
                   </div>
-                  <div class="form__select-img cat">
-                    <span class="form__select-icon"><i class="far fa-circle"></i></span>
-                      <img src="images/5.jpg" />
-                  </div>
                 </div>
                 <div id="catSelectionButtonContainer" class="form__action hidden-action">
                   <a id="catSelectionButton" class="btn">I Like These Cats!</a>
@@ -74,16 +68,12 @@
           <div class="form">
             <div class="form__title">
               <h2>NAME THE CUTE CATS!</h2>
+              <div class="form__group">
+                  <img class="form__group-img" src="images/0.jpg" />
+                  <input id="input_00" class="form__input" type="text">
+              </div>
             </div>
             <div id="catInputs" class="catInputs">
-                <div class="form__group">
-                    <img class="form__group-img" src="images/1.jpg" />
-                    <input id="inputName" class="form__input" type="text">
-                </div>
-                <div class="form__group">
-                    <img class="form__group-img" src="images/2.jpg" />
-                    <input id="inputname" class="form__input" type="text">
-                </div>
             </div>
             <div class="form__action">
               <button id="namingButton" class="btn">Lets Go!</button>

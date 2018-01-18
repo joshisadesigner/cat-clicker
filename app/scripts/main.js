@@ -1,28 +1,44 @@
-const image_1 = document.getElementById( 'targetImage_1' );
-const image_2 = document.getElementById( 'targetImage_2' );
-const clickCounter_1 = document.getElementById( 'clickCounter_1' );
-const clickCounter_2 = document.getElementById( 'clickCounter_2' );
-let clicksImage_1 = 0;
-let clicksImage_2 = 0;
 
-const imageTrigger = {
-    catchMouseEvent : ( image, counter, int ) => {
+let catThumbnail = document.getElementById( 'cats' ).getElementsByClassName( 'cat' );
+let selectedCats = [];
+let catsInputsArray = [];
+const selectedCatsContainer = document.getElementById( 'targetContainer' );
+const formContainer = document.getElementById( 'formContainer' );
+const catInputs = document.getElementById( 'catInputs' );
+const selectionBtnContainer = document.getElementById( 'catSelectionButtonContainer' );
+const selectionBtn = document.getElementById( 'catSelectionButton' );
+
+const events = {
+    catchMouseEvent : ( imageTarget, targetCounter ) => {
+
+        const image = document.getElementById( `${imageTarget}` );
+        const imageCounter = document.getElementById( targetCounter );
         const triggerClass = 'clicked';
+
+        let int = 0;
+
+        console.log( imageTarget, targetCounter );
+
         if ( image.addEventListener ){
-            image.addEventListener( 'mousedown', () => image.className += ` ${triggerClass}`, false );
-            image.addEventListener( 'mouseup', () => {
+            image.addEventListener( 'mousedown', ( event ) => {
+                image.className += ` ${triggerClass}`;
+            }, false );
+            image.addEventListener( 'mouseup', ( event ) => {
                 image.classList.remove( triggerClass );
-                counter.textContent = int += 1;
+                int += 1;
+                imageCounter.textContent = int;
             }, false);
         }
     },
     catchFormNames : () => {
+        
         const namingButton = document.getElementById( 'namingButton' );
         const textField = document.getElementsByClassName( 'form__input' );
         const backdrop = document.getElementById( 'backdrop' );
-        const catName = document.getElementsByClassName( 'catName' );
+        const catName = document.getElementsByClassName( 'cat-name' );
 
         namingButton.addEventListener( 'click', () => {
+
             for ( let i = 0; i < textField.length; i++ ) {
                 if ( textField[ i ].value.length > 0 ) {
                     catName[ i ].textContent = textField[ i ].value;
@@ -33,61 +49,60 @@ const imageTrigger = {
     }
 }
 
-// imageTrigger.catchMouseEvent( image_1, clickCounter_1, clicksImage_1 );
-// imageTrigger.catchMouseEvent( image_2, clickCounter_2, clicksImage_2 );
-
-const insertArrayElements = ( container, array ) => {
+const insertInputsElements = ( container, array ) => {
     container.innerHTML = '';
-    array.forEach(element => container.innerHTML += element);
+    array.forEach( ( element ) => { 
+        container.innerHTML += element 
+    });
 }
 
-let cats = [];
-let catsArray = [];
-let catsInputsArray = [];
-const container = document.getElementById( 'targetContainer' );
-const formContainer = document.getElementById( 'formContainer' );
-const catInputs = document.getElementById( 'catInputs' );
-const selectionBtnContainer = document.getElementById( 'catSelectionButtonContainer' );
-const selectionBtn = document.getElementById( 'catSelectionButton' );
+const insertImagesElements = ( container, array ) => {
+    container.innerHTML = '';
+    for ( let i = 0; i < array.length; i++ ) {
+        container.innerHTML += array[ i ];
+    }
+}
 
-cats = document.getElementById( 'cats' ).getElementsByClassName( 'cat' );
+for ( let i = 0; i < catThumbnail.length; i++ ) {
 
-for ( let i = 0; i < cats.length; i++ ) {
-    let catBox = document.innerHTML = 
-        `<div id="targetImage_${i+1}" class="box__unit">
-            <h3 id="name_${i+1}" class="box__title"></h3>
-            <img class="box__img" src="images/${i+1}.jpg" />
-            <span id="clickCounter_${i+1}" class="box-counter">0</span>
+    let selectedCatRender = document.innerHTML = 
+        `<div id="targetImage_0${ i }" class="box__unit">
+            <h3 id="name_0${ i }" class="box__title cat-name"></h3>
+            <img id="image-0${ i }" class="box__img" src="images/${ i }.jpg" />
+            <span id="counter_0${ i }" class="box-counter">0</span>
         </div>`;
     
     let catInput = document.innerHTML = 
         `<div class="form__group">
-            <img class="form__group-img" src="images/${i+1}.jpg" />
-            <input id="input_${i+1}" class="form__input" type="text">
+            <img class="form__group-img" src="images/${ i }.jpg" />
+            <input id="input_0${ i }" class="form__input" type="text">
         </div>`;
 
-    let currentCat = cats[ i ];
+    let currentCat = catThumbnail[ i ];
 
-    cats[i].addEventListener( 'click', (( imgIcon ) => {
+    catThumbnail[i].addEventListener( 'click', (( imgIcon, i ) => {
     
         imgIcon = imgIcon.querySelector( 'span i' );
+        
 
         return () => {
+
             if ( imgIcon.classList.contains( 'far' ) === true ) {
                 imgIcon.className = 'fas fa-check-circle';
-                catsArray.push( catBox );
+                selectedCats.push( selectedCatRender );
                 catsInputsArray.push( catInput );
                 selectionBtnContainer.classList.remove( 'hidden-action' );
+                events.catchFormNames();
             } else {
                 imgIcon.className = 'far fa-circle';
-                catsArray.splice( catsArray.indexOf( catBox ), 1 );
-                catsInputsArray.splice( catsArray.indexOf( catInput ), 1 );
-                ( catsArray.length < 1 ? selectionBtnContainer.className += ' hidden-action' : false );
+                selectedCats.splice( selectedCats.indexOf( selectedCatRender ), 1 );
+                catsInputsArray.splice( selectedCats.indexOf( catInput ), 1 );
+                ( selectedCats.length < 1 ? selectionBtnContainer.className += ' hidden-action' : false );
             }
-            insertArrayElements( container, catsArray );
-            insertArrayElements( catInputs, catsInputsArray );
+            insertInputsElements( catInputs, catsInputsArray );
+            insertImagesElements( selectedCatsContainer, selectedCats );
         }
-    })( currentCat ));
+    })( currentCat, i ));
 }
 
 selectionBtn.addEventListener( 'click', () => {
@@ -96,5 +111,3 @@ selectionBtn.addEventListener( 'click', () => {
         form.className += ' slide';
     }
 } );
-
-imageTrigger.catchFormNames();
