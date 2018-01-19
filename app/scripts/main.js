@@ -2,13 +2,6 @@
 const selectedImages = [];
 
 const htmlElms = {
-    input : ( identifier ) => {
-        let input = `<div class="form__group">
-                        <img class="form__group-img" src="images/${identifier}.jpg" />
-                        <input id="input_0${identifier}" class="form__input" type="text">
-                    </div>`
-        continer.innerHTML += input;
-    },
     image : ( identifier ) => {
         let image = `<div id="targetImage_0${ i }" class="box__unit">
                         <h3 id="name_0${identifier}" class="box__title cat-name"></h3>
@@ -17,51 +10,81 @@ const htmlElms = {
                     </div>`
         container.innerHTML += image;
     },
+    input : ( identifier, container ) => {
+        let input = `<div class="form__group">
+                        <img class="form__group-img" src="images/${identifier}.jpg" />
+                        <input id="input_0${identifier}" class="form__input" type="text">
+                    </div>`
+        container.innerHTML += input;
+    },
     insertHtmlElement : ( container, element ) => {
         container.innerHTML += element;
     },
     emptyHtmlContainer : ( container ) => {
         container.innerHTML = '';
     },
-    thumbs : document.getElementsByClassName( 'cat' ),
+    thumbs : document.getElementsByClassName( 'thumb' ),
     selectBtnContainer : document.getElementById( 'selectBtnContainer' ),
+    selectBtn : document.getElementById( 'selectBtn' ),
+    inputsContainer : document.getElementById( 'inputsContainer' ),
+    inputsBtnContainer : document.getElementById( 'inputsBtnContainer' ),
+    inputsBtn : document.getElementById( 'inputsBtn' ),
+    inputs : document.getElementsByClassName( 'form__input' ),
+    thumbsAndInputsContainer : document.getElementById( 'formContainer' ),
+    backdrop : document.getElementById( 'backdrop' ),
+    imgContainer : document.getElementById( 'imgContainer' ),
 }
 
 const classes = {
     unselect : 'form__select-icon far fa-circle',
     selected : 'form__select-icon fas fa-check-circle',
-    btnHide : 'btn-hide'
+    btnHide : 'btn-hide',
+    slide : 'slide',
+    fadeOut : 'fade-out',
 }
 
-const onClick = ( arr ) => {
+const clickThumbnails = ( arr ) => {
     for( let i = 0; i < arr.length; i++ ) {
-
         let image = arr[ i ];
-        
         arr[ i ].addEventListener( 'click', ( ( img ) => {
-            let imgPos;
-            let imgIcon = img.getElementsByTagName( 'i' );
-
             return () => {
-
+                let imgIcon = img.getElementsByTagName( 'i' );
                 if( imgIcon[ 0 ].classList.contains( 'far' ) ) {
                     imgIcon[ 0 ].className = classes.selected;
                     selectedImages.push( i );
-                    imgPos = selectedImages.indexOf( i );
                     htmlElms.selectBtnContainer.classList.remove( classes.btnHide );
-
-                    console.log( `Image: ${ i } | Psition: ${ imgPos } | Array: ${ selectedImages } | Length: ${ selectedImages.length }`)
                 } else {
                     imgIcon[ 0 ].className = classes.unselect;
-                    selectedImages.splice( imgPos, 1 )
+                    selectedImages.splice( selectedImages.indexOf( i ), 1 )
                     if( selectedImages.length === 0 ) { htmlElms.selectBtnContainer.className += ` ${classes.btnHide}` }
-
-                    console.log( `Remove: ${ i } | Position: ${ imgPos } | Array: ${ selectedImages } | Length: ${ selectedImages.length }`)
                 }
-
             };
         })( image ));
     }
 }
 
-onClick( htmlElms.thumbs );
+const addHtmlElements = ( btn, arr, containerTarget ) => {
+    btn.addEventListener( 'click', () => {
+        htmlElms.thumbsAndInputsContainer.className += ` ${ classes.slide }`;
+        for ( let i = 0; i < arr.length; i++ ){
+            htmlElms.input( arr[ i ], containerTarget )
+        }
+    });
+}
+
+const imgNaming = ( btn, htmlCollection, containerTarget ) => {
+
+    for( let i = 0; i < htmlCollection.length; i++ ) {
+        if( htmlCollection[ i ].value !== '' ) {
+            btn.addEventListener( 'click', () => {
+                htmlElms.backdrop.className += ` ${ classes.fadeOut }`;
+            });
+        } else {
+            console.log( `input: ${ i } is empty`)
+        }
+    }
+}
+
+clickThumbnails( htmlElms.thumbs );
+addHtmlElements( selectBtn, selectedImages, inputsContainer );
+imgNaming( htmlElms.inputsBtn, htmlElms.inputs, htmlElms.imgContainer );

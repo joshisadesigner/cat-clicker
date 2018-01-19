@@ -86,10 +86,6 @@ img {
   position: relative;
   transition: left 1s ease-in-out;
 
-  &.slide {
-    left: -380px;
-  }
-
   &__container {
     margin: 20px auto;
     max-width: 380px;
@@ -97,6 +93,10 @@ img {
     flex-flow: row nowrap;
     align-items: flex-start;
     overflow: hidden;
+
+    &.slide div {
+      left: -380px;
+    }
   }
 
   &__title {
@@ -205,13 +205,13 @@ img {
   transition: all 1s ease-in-out;
 }
 
-.fadeOut {
-  animation: fadeOut;
+.fade-out {
+  animation: fade-out;
   animation-duration: .265s;
   animation-fill-mode: both;
 }
 
-@keyframes fadeOut {
+@keyframes fade-out {
   from { 
     opacity: 1;
     top: 0;
