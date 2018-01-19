@@ -1,5 +1,5 @@
-
 const selectedImages = [];
+const selectedImagesNames = [];
 
 const htmlElms = {
     image : ( identifier ) => {
@@ -72,19 +72,23 @@ const addHtmlElements = ( btn, arr, containerTarget ) => {
     });
 }
 
-const imgNaming = ( btn, htmlCollection, containerTarget ) => {
+const imgNaming = () => {
 
-    for( let i = 0; i < htmlCollection.length; i++ ) {
-        if( htmlCollection[ i ].value !== '' ) {
-            btn.addEventListener( 'click', () => {
+    htmlElms.inputsBtn.addEventListener( 'click', () => {
+        for( let i = 0; i < htmlElms.inputs.length; i++ ) {
+            selectedImagesNames.push( htmlElms.inputs[ i ].value );
+            
+            if( htmlElms.inputs[ i ].value.length > 0 ) {
                 htmlElms.backdrop.className += ` ${ classes.fadeOut }`;
-            });
-        } else {
-            console.log( `input: ${ i } is empty`)
+                console.log( `input: ${ i } value is: ${ htmlElms.inputs[ i ].value }`)
+                
+            } else {
+                console.log( `input: ${ i } is empty`)
+            }
         }
-    }
+    }, false );
 }
 
 clickThumbnails( htmlElms.thumbs );
 addHtmlElements( selectBtn, selectedImages, inputsContainer );
-imgNaming( htmlElms.inputsBtn, htmlElms.inputs, htmlElms.imgContainer );
+imgNaming();
