@@ -1,37 +1,7 @@
 
-const thumbs = document.getElementsByClassName( 'cat' );
 const selectedImages = [];
 
-const imageSelection = {
-    changeIcon: ( object ) => {
-        const unselect = 'form__select-icon far fa-circle';
-        const selected = 'form__select-icon fas fa-check-circle';
-
-        console.log( object );
-
-        if( object.classList.contains( 'far' ) ) {
-            object.className = selected;
-        } else {
-            object.className = unselect;
-        }
-    },
-    onClick: ( arr ) => {
-        for( let i = 0; i < arr.length; i++ ) {
-
-            let element = arr[ i ];
-            
-            arr[ i ].addEventListener( 'click', ( ( elm ) => {
-                let elmIcon = elm.getElementsByTagName( 'i' );
-                return () => {
-                    imageSelection.changeIcon( elmIcon[0] );
-                    selectedImages.push( i );
-                };
-            })( element ));
-        }
-    }
-}
-
-const htmlElements = {
+const htmlElms = {
     input : ( identifier ) => {
         let input = `<div class="form__group">
                         <img class="form__group-img" src="images/${identifier}.jpg" />
@@ -52,7 +22,46 @@ const htmlElements = {
     },
     emptyHtmlContainer : ( container ) => {
         container.innerHTML = '';
+    },
+    thumbs : document.getElementsByClassName( 'cat' ),
+    selectBtnContainer : document.getElementById( 'selectBtnContainer' ),
+}
+
+const classes = {
+    unselect : 'form__select-icon far fa-circle',
+    selected : 'form__select-icon fas fa-check-circle',
+    btnHide : 'btn-hide'
+}
+
+const onClick = ( arr ) => {
+    for( let i = 0; i < arr.length; i++ ) {
+
+        let image = arr[ i ];
+        
+        arr[ i ].addEventListener( 'click', ( ( img ) => {
+            let imgPos;
+            let imgIcon = img.getElementsByTagName( 'i' );
+
+            return () => {
+
+                if( imgIcon[ 0 ].classList.contains( 'far' ) ) {
+                    imgIcon[ 0 ].className = classes.selected;
+                    selectedImages.push( i );
+                    imgPos = selectedImages.indexOf( i );
+                    htmlElms.selectBtnContainer.classList.remove( classes.btnHide );
+
+                    console.log( `Image: ${ i } | Psition: ${ imgPos } | Array: ${ selectedImages } | Length: ${ selectedImages.length }`)
+                } else {
+                    imgIcon[ 0 ].className = classes.unselect;
+                    selectedImages.splice( imgPos, 1 )
+                    if( selectedImages.length === 0 ) { htmlElms.selectBtnContainer.className += ` ${classes.btnHide}` }
+
+                    console.log( `Remove: ${ i } | Position: ${ imgPos } | Array: ${ selectedImages } | Length: ${ selectedImages.length }`)
+                }
+
+            };
+        })( image ));
     }
 }
 
-imageSelection.onClick( thumbs );
+onClick( htmlElms.thumbs );
