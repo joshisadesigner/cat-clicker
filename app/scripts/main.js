@@ -2,13 +2,28 @@ const selectedImages = [];
 let selectedImagesNames = [];
 
 const htmlElms = {
-    image : ( identifier, container ) => {
-        let image = `<div id="image_0${ identifier }" class="box__unit">
-                        <h3 id="name_0${ identifier}" class="box__title cat-name"></h3>
-                        <img id="image-0${ identifier}" class="box__img" src="images/${ identifier }.jpg" />
-                        <span id="counter_0${ identifier }" class="box-counter">0</span>
-                    </div>`
-        container.innerHTML += image;
+    image : ( identifier ) => {
+        let box = document.createElement( 'div' );
+        box.className = 'box__unit';
+
+        let boxTitle = document.createElement( 'h3' );
+        boxTitle.id = `name-0${ identifier}`;
+        boxTitle.className = 'box__title';
+
+        let boxImage = document.createElement( 'img' );
+        boxImage.id = `image-0${ identifier }`;
+        boxImage.className = 'box__img';
+        boxImage.src = `images/${ identifier }.jpg`;
+
+        let boxCounter = document.createElement( 'span' );
+        boxCounter.id = `counter-0${ identifier }`;
+        boxCounter.className = 'box-counter';
+
+        box.appendChild( boxTitle );
+        box.appendChild( boxImage );
+        box.appendChild( boxCounter );
+
+        htmlElms.imgContainer.appendChild( box );
     },
     input : ( identifier, container ) => {
         let input = `<div class="form__group">
@@ -81,36 +96,42 @@ const imgNaming = () => {
             if( htmlElms.inputs[ i ].value !== '' ) {
                 selectedImagesNames.push( htmlElms.inputs[ i ].value );
             }
+        }
             
-            if( selectedImagesNames.length === htmlElms.inputs.length ) {
-                htmlElms.backdrop.className += ` ${ classes.fadeOut }`;
-                placeImages();
-            }
+        if( selectedImagesNames.length === htmlElms.inputs.length ) {
+            htmlElms.backdrop.className += ` ${ classes.fadeOut }`;
+            placeImages();
         }
     }, false );
 }
 
 const placeImages = () => {
     for( let i = 0; i < selectedImages.length; i++ ) {
-        console.log( selectedImages );
-        htmlElms.image( selectedImages[ i ], imgContainer );
+        //Creates elements in DOM
+        htmlElms.image( selectedImages[ i ] );
+        
+        // Takes ID of image to use as target
+        let image = document.getElementById( `image-0${ selectedImages[ i ] }` );
+        // Takes ID of image target counter to add clicks count
+        let counter = document.getElementById( `counter-0${ selectedImages[ i ] }` )
 
-        let imageName = document.getElementById( `name_0${ selectedImages[ i ] }` );
+        // Takes ID of image name to add name
+        let imageName = document.getElementById( `name-0${ selectedImages[ i ] }` );
+        // Adds image name to the image
         imageName.textContent = selectedImagesNames[ i ];
-
-        let imageTarget = document.getElementById( `image-0${ selectedImages[ i ] }` );
-
-        imageTarget.addEventListener( 'click', ( () => {
-            return () => {
-                let clicks = 0;
-                
-            }
-        }) ( imageTarget ) );
-
-
+        
+        addListener( image, counter );
     }
-    
-    // console.log( document.getElementsByClassName( 'box-counter' ) );
+}
+
+const addListener = ( image, counter ) => {
+    image.addEventListener( 'click', ( (  ) => {
+        let clicksCount = 0;
+        return () => {
+            counter.textContent = clicksCount += 1;
+            console.log( `counter: ${ counter.id } | clicks count: ${ clicksCount }` );
+        }
+    }) ( counter ) );
 }
 
 clickThumbnails( htmlElms.thumbs );
