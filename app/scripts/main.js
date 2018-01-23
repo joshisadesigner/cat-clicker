@@ -83,7 +83,7 @@ for ( let i = 0; i < catThumbnail.length; i++ ) {
     catThumbnail[i].addEventListener( 'click', (( imgIcon, i ) => {
     
         imgIcon = imgIcon.querySelector( 'span i' );
-        
+
 
         return () => {
 
