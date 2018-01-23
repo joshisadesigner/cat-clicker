@@ -100,6 +100,13 @@ const placeImages = () => {
 
         let imageTarget = document.getElementById( `image-0${ selectedImages[ i ] }` );
 
+        imageTarget.addEventListener( 'click', ( () => {
+            return () => {
+                let clicks = 0;
+                
+            }
+        }) ( imageTarget ) );
+
 
     }
     
