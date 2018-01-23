@@ -1,12 +1,12 @@
 const selectedImages = [];
-const selectedImagesNames = [];
+let selectedImagesNames = [];
 
 const htmlElms = {
-    image : ( identifier ) => {
-        let image = `<div id="targetImage_0${ i }" class="box__unit">
-                        <h3 id="name_0${identifier}" class="box__title cat-name"></h3>
-                        <img id="image-00" class="box__img" src="images/${identifier}.jpg" />
-                        <span id="counter_0${identifier}" class="box-counter">0</span>
+    image : ( identifier, container ) => {
+        let image = `<div id="image_0${ identifier }" class="box__unit">
+                        <h3 id="name_0${ identifier}" class="box__title cat-name"></h3>
+                        <img id="image-0${ identifier}" class="box__img" src="images/${ identifier }.jpg" />
+                        <span id="counter_0${ identifier }" class="box-counter">0</span>
                     </div>`
         container.innerHTML += image;
     },
@@ -75,18 +75,35 @@ const addHtmlElements = ( btn, arr, containerTarget ) => {
 const imgNaming = () => {
 
     htmlElms.inputsBtn.addEventListener( 'click', () => {
+        selectedImagesNames = [];
         for( let i = 0; i < htmlElms.inputs.length; i++ ) {
-            selectedImagesNames.push( htmlElms.inputs[ i ].value );
+
+            if( htmlElms.inputs[ i ].value !== '' ) {
+                selectedImagesNames.push( htmlElms.inputs[ i ].value );
+            }
             
-            if( htmlElms.inputs[ i ].value.length > 0 ) {
+            if( selectedImagesNames.length === htmlElms.inputs.length ) {
                 htmlElms.backdrop.className += ` ${ classes.fadeOut }`;
-                console.log( `input: ${ i } value is: ${ htmlElms.inputs[ i ].value }`)
-                
-            } else {
-                console.log( `input: ${ i } is empty`)
+                placeImages();
             }
         }
     }, false );
+}
+
+const placeImages = () => {
+    for( let i = 0; i < selectedImages.length; i++ ) {
+        console.log( selectedImages );
+        htmlElms.image( selectedImages[ i ], imgContainer );
+
+        let imageName = document.getElementById( `name_0${ selectedImages[ i ] }` );
+        imageName.textContent = selectedImagesNames[ i ];
+
+        let imageTarget = document.getElementById( `image-0${ selectedImages[ i ] }` );
+
+
+    }
+    
+    // console.log( document.getElementsByClassName( 'box-counter' ) );
 }
 
 clickThumbnails( htmlElms.thumbs );
