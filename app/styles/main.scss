@@ -45,6 +45,7 @@ button {
   outline: none;
   font-weight: 700;
   color: #666;
+  box-shadow: 0px 2px 0px rgba( #000, .1 );
 }
 
 .selection {
@@ -59,10 +60,13 @@ button {
   display: flex;
   align-items: center;
   color: #929292;
+  transition: all .265s ease-in-out;
+
 
   &:hover,
   &:active {
-    box-shadow: 0 0 6px rgba( #000, .4 );
+    box-shadow: 0px 4px 0px rgba( #000, .3 );
+    transform: translateY(-4px);
   }
 
   &_active,
@@ -70,7 +74,7 @@ button {
   &_active:active {
     color: #656565;
     background: #e2e2e2;
-    box-shadow: inset 0 0 8px rgba( #000, .2 )
+    box-shadow: inset 0 0 8px rgba( #000, .2 );
   }
 
   &__image {
