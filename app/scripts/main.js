@@ -23,30 +23,39 @@
   ];
 
   const octopus = {
-    createList: () => {},
 
-    populateList: () => {},
-
-    setCurrentCat: () => {
+    getCatList: () => {
+      const catButtons = document.getElementById('catButtons');
     },
 
-    clickOnCatList: () => {
-      let catList = document.querySelectorAll('btn');
+    catClicks: () => {
+      const cat = document.getElementById('box-img');
+      cat.addEventListener('click', () => {
+        model[selectedCat.index].clicks++;
+        view.renderSelectedCat();
+      });
+    },
 
-      for (let i = 0; i < catList.length; i++) {
-        const cat = catList[i];
+    SelectedCat: ( index ) => {
+      return selectedCat = {
+        index: index,
+      };
+      
+    },
 
-        cat.addEventLitener('click', ((catCopy) => {
-          let catObject = {
-            name: model[i].name,
-            clicks: model[i].clicks,
-            index: i,
-          }
-          return () => {
-            catObject
-          }
-        })(cat));
-        
+    selectCat: () => {
+      const catButtons = document.getElementsByClassName('btn');
+
+      for (let i = 0; i < catButtons.length; i++) {
+        const catButton = catButtons[i];
+
+        catButton.addEventListener( 'click', (function(model) {
+            return function() {
+              octopus.SelectedCat( i )
+              view.renderSelectedCat();
+            };
+          })(model[i])
+        );
       }
     },
 
@@ -56,33 +65,35 @@
   };
 
   const view = {
-    init: () => {
-      view.renderListOfCats();
+    init: function()  {
+      this.renderListOfCats();
     },
 
     renderListOfCats: () => {
-      const catButtons = document.getElementById('catButtons');
+
+      octopus.getCatList();
+
       let catButtonStr = '';
       for (let i = 0; i < model.length; i++) {
         const element = model[i];
-        catButtonStr += 
-        `<button id="cat-0${i}" class="btn selection__btn">
+        catButtonStr += `<button id="cat-0${i}" class="btn selection__btn">
           <img src="images/${i}.jpg" class="btn__image" alt=""> ${model[i].name}
         </button>`;
       }
       catButtons.innerHTML = catButtonStr;
+      octopus.selectCat();
     },
 
-    renderCatViewingArea: () => {
+    renderSelectedCat: () => {
       const catView = document.getElementById('catView');
-      let catActive = octopus.setCurrentCat();
       let catStr = '';
-      catView.innerHTML = 
-      `<div id="box" class="box">
-        <img src="images/${catActive.index}.jpg" alt="Cat #${catActive.index}" id="box-img" class="img box__img">
-        <span id="box-title" class="box__element_float box__element_title">${catActive.name}</span>
-        <span id="box-counter" class="box__element_float box__element_counter">${catActive.clicks}</span>
+      catView.innerHTML = `<div id="box" class="box">
+        <img src="images/${selectedCat.index}.jpg" alt="Cat #${selectedCat.index}" id="box-img" class="img box__img">
+        <span id="box-title" class="box__element_float box__element_title">${model[selectedCat.index].name}</span>
+        <span id="box-counter" class="box__element_float box__element_counter">${model[selectedCat.index].clicks}</span>
       </div>`;
+
+      octopus.catClicks();
     },
 
     render: () => {}
