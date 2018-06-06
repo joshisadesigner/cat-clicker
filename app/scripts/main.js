@@ -58,7 +58,7 @@
         if( name.value.length !== 0 && url.value.length !== 0 && clicks.value.length !== 0 ) {
           model.push({ name: name.value, clicks: clicks.value, url: url.value });
           view.renderListOfCats();
-          console.log(model);
+          octopus.cancelAdminView();
         }
       });
     },
@@ -67,19 +67,12 @@
       const catButtons = document.getElementById('catButtons');
     },
 
-    catClicks: () => {
+    catClicks: ( i ) => {
       const cat = document.getElementById('box-img');
       cat.addEventListener('click', () => {
-        model[selectedCat.index].clicks++;
-        view.renderSelectedCat();
+        model[ i ].clicks++;
+        view.renderSelectedCat( i );
       });
-    },
-
-    SelectedCat: ( index ) => {
-      return selectedCat = {
-        index: index,
-      };
-      
     },
 
     selectCat: () => {
@@ -90,8 +83,7 @@
 
         catButton.addEventListener( 'click', (function(model) {
             return function() {
-              octopus.SelectedCat( i );
-              view.renderSelectedCat();
+              view.renderSelectedCat( i );
             };
           })(model[i])
         );
@@ -116,7 +108,7 @@
       for (let i = 0; i < model.length; i++) {
         const element = model[i];
         catButtonStr += `<button id="cat-0${i}" class="btn selection__btn">
-          <img src="${model[i].url}" class="btn__image" alt=""> ${model[i].name}
+          <span class="btn__image"><img src="${model[i].url}" alt=""></span> ${model[i].name}
         </button>`;
       }
       catButtons.innerHTML = catButtonStr;
@@ -124,16 +116,16 @@
       octopus.openingAdminView();
     },
 
-    renderSelectedCat: () => {
+    renderSelectedCat: ( i ) => {
       const catView = document.getElementById('catView');
       let catStr = '';
       catView.innerHTML = `<div id="box" class="box">
-        <img src="${model[selectedCat.index].url}" alt="Cat #${selectedCat.index}" id="box-img" class="img box__img">
-        <span id="box-title" class="box__element_float box__element_title">${model[selectedCat.index].name}</span>
-        <span id="box-counter" class="box__element_float box__element_counter">${model[selectedCat.index].clicks}</span>
+        <img src="${model[ i ].url}" alt="Cat #${ i }" id="box-img" class="img box__img">
+        <span id="box-title" class="box__element_float box__element_title">${model[ i ].name}</span>
+        <span id="box-counter" class="box__element_float box__element_counter">${model[ i ].clicks}</span>
       </div>`;
 
-      octopus.catClicks();
+      octopus.catClicks( i );
     },
 
     renderAdminOptions: () => {
