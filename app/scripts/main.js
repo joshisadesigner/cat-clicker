@@ -22,7 +22,25 @@
     }
   ];
 
+  let modelAdmin = false;
+
   const octopus = {
+
+    openingAdminView: () => {
+      const adminButton = document.getElementById('adminButton');
+      adminButton.addEventListener('click', () => {
+        view.renderAdminOptions();
+      });
+    },
+
+    cancelAdminView: () => {
+      const cancelButton = document.getElementById('cancelButton');
+      cancelButton.addEventListener('click', () => {
+        console.log('form');
+      })
+    },
+
+    updateCats: () => {},
 
     getCatList: () => {
       const catButtons = document.getElementById('catButtons');
@@ -44,7 +62,7 @@
     },
 
     selectCat: () => {
-      const catButtons = document.getElementsByClassName('btn');
+      const catButtons = document.getElementsByClassName('selection__btn"');
 
       for (let i = 0; i < catButtons.length; i++) {
         const catButton = catButtons[i];
@@ -82,6 +100,7 @@
       }
       catButtons.innerHTML = catButtonStr;
       octopus.selectCat();
+      octopus.openingAdminView();
     },
 
     renderSelectedCat: () => {
@@ -94,6 +113,17 @@
       </div>`;
 
       octopus.catClicks();
+    },
+
+    renderAdminOptions: () => {
+      const form = document.getElementById('adminOptions');
+      if ( !modelAdmin ) {
+        form.classList.add('shown');
+        modelAdmin = true;
+      } else {
+        form.classList.remove('shown')
+        modelAdmin = false;
+      }
     },
 
     render: () => {}
