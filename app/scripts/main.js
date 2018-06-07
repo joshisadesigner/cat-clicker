@@ -58,13 +58,8 @@
         if( name.value.length !== 0 && url.value.length !== 0 && clicks.value.length !== 0 ) {
           model.push({ name: name.value, clicks: clicks.value, url: url.value });
           view.renderListOfCats();
-          octopus.cancelAdminView();
         }
       });
-    },
-
-    getCatList: () => {
-      const catButtons = document.getElementById('catButtons');
     },
 
     catClicks: ( i ) => {
@@ -101,8 +96,6 @@
     },
 
     renderListOfCats: () => {
-
-      octopus.getCatList();
 
       let catButtonStr = '';
       for (let i = 0; i < model.length; i++) {
