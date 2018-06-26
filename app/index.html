@@ -1,79 +1,82 @@
 <!doctype html>
 <html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cat-Clicker</title>
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cat-Clicker</title>
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
 
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <link href="https://use.fontawesome.com/releases/v5.0.3/css/all.css" rel="stylesheet">
-    
-  </head>
-  <body>
-    <!--[if IE]>
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+  <link href="https://use.fontawesome.com/releases/v5.0.3/css/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <main>
-      <section id="selectionButtons" class="selection">
-        <!-- 
+  <main>
+    <section id="selectionButtons" class="selection">
+      <!-- 
           <button id="cat-00" class="btn selection__btn">
             <span class="btn__image"><img src="images/*.jpg" alt=""></span> name
           </button> 
         -->
-      </section>
+    </section>
 
 
-      <section id="selectedContainer" class="selected">
-        <!--
+    <section id="selectedContainer" class="selected">
+      <!--
           <img src="images/*.jpg" alt="Cat #${ i }" id="selected-img" class="img selected__img">
           <span id="selected-title" class="selected__element_float selected__element_title">name</span>
           <span id="selected-counter" class="selected__element_float selected__element_counter">clicks</span>
         -->
-      </section>
+    </section>
 
 
-      <section id="adminArea" class="admin">
-        <button id="adminButton" class="btn btn_admin">Admin</button>
-        <form id="adminOptions" class="form" action="">
-          <div class="form-group">
-              <label class="form-label" for="url">URL: </label>
-              <input class="form-input" type="url" id="url">
-            </div>
-          <div class="form-group">
-              <label class="form-label" for="name">Name: </label>
-              <input class="form-input" type="text" id="name">
-            </div>
-          <div class="form-group">
-              <label class="form-label" for="clicks">Clicks: </label>
-              <input class="form-input" type="number" id="clicks">
-            </div>
-          <div class="form-group">
-            <button id="cancelButton" class="btn btn-action btn_cancel" type="button">Cancel</button>
-            <button id="saveButton" class="btn btn-action btn_save" type="button">Save</button>
-          </div>
-        </form>
-      </section>
-    </main>
+    <section id="adminArea" class="admin">
+      <button id="adminButton" class="btn btn_admin">Admin</button>
+      <form id="adminForm" class="form" action="">
+        <div class="form-group">
+          <label class="form-label" for="name">Name: </label>
+          <input class="form-input" type="text" id="name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="clicks">Clicks: </label>
+          <input class="form-input" type="number" id="clicks">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="url">URL: </label>
+          <input class="form-input" type="url" id="url">
+        </div>
+        <div class="form-group">
+          <button id="cancelButton" class="btn btn-action btn_cancel" type="button">Cancel</button>
+          <button id="saveButton" class="btn btn-action btn_save" type="button">Save</button>
+        </div>
+      </form>
+    </section>
+  </main>
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    
-    <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
-    <!-- endbuild -->
-  </body>
+  <!-- build:js scripts/vendor.js -->
+  <!-- bower:js -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js scripts/main.js -->
+  <script src="scripts/main.js"></script>
+  <!-- endbuild -->
+</body>
+
 </html>

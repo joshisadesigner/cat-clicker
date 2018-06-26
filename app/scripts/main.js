@@ -78,6 +78,15 @@
     },
 
     /**
+     * @desc    Adds new object to current List
+     * @param   Object
+     * @returns none
+     */
+    addNewListItem: function(object) {
+      model.list.push(object);
+    },
+
+    /**
      * @desc  Call rendering functions and asign selected function
      * @param none
      * @requires none
@@ -86,6 +95,7 @@
       this.setSelectedItem();
       listView.init();
       selectedView.init();
+      adminView.init();
     }
   };
 
@@ -138,13 +148,15 @@
       const listDomElm = document.getElementById('selectionButtons');
       let list = octopus.getList();
 
+      listDomElm.innerHTML = '';
+
       for (let i = 0; i < list.length; i++) {
         let item = list[i];
         let itemDomElm = document.createElement('button');
         
         itemDomElm.id = `item${i}Button`;
         itemDomElm.className = 'btn selection__btn';
-        itemDomElm.innerHTML = `<span class="btn__image"><img src="images/${i}.jpg" alt=""></span> ${item.name}`
+        itemDomElm.innerHTML = `<span class="btn__image"><img src="${item.url}" alt=""></span> ${item.name}`
 
         /**
          * @desc  Adds click event to created List Items
@@ -153,7 +165,6 @@
          */
         itemDomElm.addEventListener('click', (function(itemCopy){
           return function(){
-            const itemButtons = document.getElementsByClassName('selection__btn');
             octopus.setSelectedItem( itemCopy );
             selectedView.render();
           }
@@ -172,6 +183,99 @@
       this.render();
     }
   };
+
+  const adminView = {
+
+    /**
+     * @desc    creates variable to use in adminView
+     */
+    adminForm: document.getElementById('adminForm'),
+
+    /**
+     * @desc    Add function to admin button to show admin form
+     * @param   none
+     * @returns function - toggle form function
+     */
+    render: function() {
+      const adminButton = document.getElementById('adminButton');
+      this.toggleForm(adminButton);
+    },
+
+    /**
+     * @desc    Add function to cancel button to clear form
+     * @param   none
+     * @return  none    
+     */
+    clear: function() {
+      const cancelButton = document.getElementById('cancelButton');
+  
+      cancelButton.addEventListener('click', function(){
+        adminView.adminForm.reset();
+      });
+    },
+
+
+    /**
+     * @desc    Hide and show admin form
+     * @param   DOM element
+     * @return  none
+     */
+    toggleForm: function(button) {
+      const adminForm = this.adminForm;
+
+      button.addEventListener('click', function() {
+        if (adminForm.classList.contains('shown')) {
+          adminForm.classList.remove('shown');
+        } else {
+          adminForm.classList.add('shown');
+          adminView.clear();
+          adminView.colectNewListItem();
+        }
+      });
+    },
+
+    /**
+     * @desc    Creates an object to add in model
+     * @param   none
+     * @return  none
+     */
+    colectNewListItem: function(){
+      const saveButton = document.getElementById('saveButton');
+      const nameInput = document.getElementById('name');
+      const clicksInput = document.getElementById('clicks');
+      const urlInput = document.getElementById('url');
+
+      saveButton.addEventListener('click', function(){
+
+        if ( nameInput.value.length > 0 && 
+          clicksInput.value.length > 0 && 
+          urlInput.value.length > 0 
+        ) {
+          let newName = nameInput.value;
+          let newClicks = clicksInput.value;
+          let newUrl = urlInput.value;
+
+          console.log(newName.length > 0);
+
+          let obj = {
+            name: newName,
+            clicks: Number(newClicks),
+            url: newUrl
+          }
+
+          octopus.addNewListItem(obj);
+          octopus.setSelectedItem(obj);
+          octopus.init();
+
+          adminView.adminForm.reset();
+        }
+      });
+    },
+
+    init: function() {
+      this.render();
+    }
+  }
 
   octopus.init();
 })();
