@@ -179,7 +179,7 @@ button {
   transform: scale(0);
   opacity: 0;
 
-  &.shown {
+  &.show {
     opacity: 1;
     transform: scale(1);
   }

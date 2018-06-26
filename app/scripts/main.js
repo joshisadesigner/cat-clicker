@@ -27,7 +27,8 @@
         url: 'images/4.jpg'
       }
     ],
-    selected: null
+    selected: null,
+    admin: false
   };
 
   /**
@@ -59,12 +60,18 @@
      * @return  none
      */
     setSelectedItem: function( object = model.list[0] ) {
-      let index = model.list.indexOf( object );
-      
       model.selected = object;
-      model.selected.index = index;
-      
+    
       return model.selected;
+    },
+
+    editSelected: function(name, clicks, url) {
+      model.selected.name = name;
+      model.selected.clicks = clicks;
+      model.selected.url = url;
+      
+      listView.init();
+      selectedView.init();
     },
 
     /**
@@ -78,12 +85,27 @@
     },
 
     /**
-     * @desc    Adds new object to current List
-     * @param   Object
+     * @desc    Change boolean model.admin and remove or adds class to an element
+     * @param   Button, Element
      * @returns none
      */
-    addNewListItem: function(object) {
-      model.list.push(object);
+    hideAndShowAdmin: function(element){
+      if (model.admin) {
+        element.classList.remove('show');
+        model.admin = false;
+      } else {
+        element.classList.add('show');
+        model.admin = true;
+      }
+    },
+
+    /**
+     * @desc    Add function to cancel button to clear form
+     * @param   none
+     * @return  none    
+     */
+    clearAdmin: function() {
+      adminView.adminForm.reset();
     },
 
     /**
@@ -194,80 +216,38 @@
     /**
      * @desc    Add function to admin button to show admin form
      * @param   none
-     * @returns function - toggle form function
+     * @returns none
      */
     render: function() {
       const adminButton = document.getElementById('adminButton');
-      this.toggleForm(adminButton);
-    },
-
-    /**
-     * @desc    Add function to cancel button to clear form
-     * @param   none
-     * @return  none    
-     */
-    clear: function() {
       const cancelButton = document.getElementById('cancelButton');
-  
-      cancelButton.addEventListener('click', function(){
-        adminView.adminForm.reset();
-      });
-    },
-
-
-    /**
-     * @desc    Hide and show admin form
-     * @param   DOM element
-     * @return  none
-     */
-    toggleForm: function(button) {
-      const adminForm = this.adminForm;
-
-      button.addEventListener('click', function() {
-        if (adminForm.classList.contains('shown')) {
-          adminForm.classList.remove('shown');
-        } else {
-          adminForm.classList.add('shown');
-          adminView.clear();
-          adminView.colectNewListItem();
-        }
-      });
-    },
-
-    /**
-     * @desc    Creates an object to add in model
-     * @param   none
-     * @return  none
-     */
-    colectNewListItem: function(){
       const saveButton = document.getElementById('saveButton');
-      const nameInput = document.getElementById('name');
-      const clicksInput = document.getElementById('clicks');
-      const urlInput = document.getElementById('url');
+      const adminForm = this.adminForm;
+      
+      adminButton.addEventListener('click',function(){
+        octopus.hideAndShowAdmin(adminForm);
+      });
+
+      cancelButton.addEventListener('click', function(){
+        octopus.clearAdmin();
+      });
 
       saveButton.addEventListener('click', function(){
+        const nameInput = document.getElementById('name');
+        const clicksInput = document.getElementById('clicks');
+        const urlInput = document.getElementById('url');
 
         if ( nameInput.value.length > 0 && 
           clicksInput.value.length > 0 && 
           urlInput.value.length > 0 
         ) {
-          let newName = nameInput.value;
-          let newClicks = clicksInput.value;
-          let newUrl = urlInput.value;
-
-          console.log(newName.length > 0);
-
-          let obj = {
-            name: newName,
-            clicks: Number(newClicks),
-            url: newUrl
-          }
-
-          octopus.addNewListItem(obj);
-          octopus.setSelectedItem(obj);
-          octopus.init();
-
-          adminView.adminForm.reset();
+  
+          let name = nameInput.value;
+          let clicks =  Number(clicksInput.value);
+          let url = urlInput.value;
+          
+          octopus.editSelected(name, clicks, url);
+          octopus.clearAdmin();
         }
       });
     },
