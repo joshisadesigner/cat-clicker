@@ -175,13 +175,12 @@ button {
   display: flex;
   flex-flow: column nowrap;
   transition: all .25s cubic-bezier(0.075, 0.82, 0.165, 1);
-  transform-origin: left top;
-  transform: scale(0);
+  transform: translateY( 160px );
   opacity: 0;
 
   &.show {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY( 0px );
   }
 
   &-group {

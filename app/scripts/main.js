@@ -90,22 +90,13 @@
      * @returns none
      */
     hideAndShowAdmin: function(element){
-      if (model.admin) {
-        element.classList.remove('show');
-        model.admin = false;
-      } else {
+      if (!model.admin) {
         element.classList.add('show');
         model.admin = true;
+      } else {
+        element.classList.remove('show');
+        model.admin = false;
       }
-    },
-
-    /**
-     * @desc    Add function to cancel button to clear form
-     * @param   none
-     * @return  none    
-     */
-    clearAdmin: function() {
-      adminView.adminForm.reset();
     },
 
     /**
@@ -189,6 +180,7 @@
           return function(){
             octopus.setSelectedItem( itemCopy );
             selectedView.render();
+            adminView.setInputValues();
           }
         })(item));
 
@@ -212,6 +204,20 @@
      * @desc    creates variable to use in adminView
      */
     adminForm: document.getElementById('adminForm'),
+    nameInput: document.getElementById('name'),
+    clicksInput: document.getElementById('clicks'),
+    urlInput: document.getElementById('url'),
+
+    /**
+     * @desc    Set input values to current selected List Item
+     * @param   none
+     * @return  DOM input values
+     */
+    setInputValues: function(){
+      this.nameInput.value = model.selected.name;
+      this.clicksInput.value = model.selected.clicks;
+      this.urlInput.value = model.selected.url;
+    },
 
     /**
      * @desc    Add function to admin button to show admin form
@@ -225,30 +231,21 @@
       const adminForm = this.adminForm;
       
       adminButton.addEventListener('click',function(){
+        adminView.setInputValues();
         octopus.hideAndShowAdmin(adminForm);
       });
 
       cancelButton.addEventListener('click', function(){
-        octopus.clearAdmin();
+        octopus.hideAndShowAdmin(adminForm);
       });
 
       saveButton.addEventListener('click', function(){
-        const nameInput = document.getElementById('name');
-        const clicksInput = document.getElementById('clicks');
-        const urlInput = document.getElementById('url');
-
-        if ( nameInput.value.length > 0 && 
-          clicksInput.value.length > 0 && 
-          urlInput.value.length > 0 
-        ) {
-  
-          let name = nameInput.value;
-          let clicks =  Number(clicksInput.value);
-          let url = urlInput.value;
-          
-          octopus.editSelected(name, clicks, url);
-          octopus.clearAdmin();
-        }
+        let name = adminView.nameInput.value;
+        let clicks =  Number(adminView.clicksInput.value);
+        let url = adminView.urlInput.value;
+        
+        octopus.editSelected(name, clicks, url);
+        octopus.hideAndShowAdmin(adminForm);
       });
     },
 
